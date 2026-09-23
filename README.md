@@ -1,4 +1,3 @@
-
 # Search Algorithms in Pac-Man
 
 **IT3012 Intelligent Systems — Group Assignment (Group AI49)**
@@ -19,9 +18,9 @@ All work is done in `search.py` (Q1–Q4) and `searchAgents.py` (Q5–Q7), and i
 
 ## Work Division
 
-| Member          | Student ID   | Questions                                      | Additional Responsibilities                                 |
-| --------------- | ------------ | ---------------------------------------------- | ----------------------------------------------------------- |
-| [Member 1 Name] | [ITXXXXXXXX] | Q1 — DFS, Q2 — BFS                           | Repo setup, README, final report assembly                   |
-| [Member 2 Name] | [ITXXXXXXXX] | Q3 — UCS, Q4 — A* Search                     | Git evidence screenshots, contribution table                |
-| [Member 3 Name] | [ITXXXXXXXX] | Q5 — Corners Problem, Q6 — Corners Heuristic | Node-count testing for Q6                                   |
-| [Member 4 Name] | [ITXXXXXXXX] | Q7 — Food Heuristic                           | AI usage declaration, full autograder run before submission |
+| Member           | Student ID | Questions                                      | Additional Responsibilities                                 |
+| ---------------- | ---------- | ---------------------------------------------- | ----------------------------------------------------------- |
+| P P Kavindi      | IT24101611 | Q1 — DFS, Q2 — BFS                           | Repo setup, README, final report assembly                   |
+| Fernando M S T   | IT24101063 | Q3 — UCS, Q4 — A* Search                     | Git evidence screenshots, contribution table                |
+| Bodini G V E J   | IT24101177 | Q5 — Corners Problem, Q6 — Corners Heuristic | Node-count testing for Q6                                   |
+| De Silva T H H D | IT24101010 | Q7 — Food Heuristic                           | AI usage declaration, full autograder run before submission |
