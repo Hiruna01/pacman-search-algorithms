@@ -455,12 +455,14 @@ def foodHeuristic(state: Tuple[Tuple, List[List]], problem: FoodSearchProblem):
     """
     position, foodGrid = state
 
-    # Manhattan distance to the FARTHEST remaining food dot.
+    #  real MAZE distance (BFS through corridors) to the farthest
+
+    # remaining food dot. Walls are now taken into account.
     foods = foodGrid.asList()
     
     if not foods:
         return 0
-    return max(util.manhattanDistance(position, food) for food in foods)
+    return max(mazeDistance(position, food, problem.startingGameState) for food in foods)
 
 
 
