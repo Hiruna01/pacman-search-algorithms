@@ -337,7 +337,7 @@ class CornersProblem(search.SearchProblem):
             for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
                 dx, dy = Actions.directionToVector(action)
                 nextx, nexty = int(x + dx), int(y + dy)
-                
+
                 if not self.walls[nextx][nexty]:
                     nextPos = (nextx, nexty)
                     # Reaching a corner removes it from the unvisited tuple.
@@ -374,11 +374,15 @@ def cornersHeuristic(state: Any, problem: CornersProblem):
     shortest path from the state to a goal of the problem; i.e.  it should be
     admissible (as well as consistent).
     """
+
     corners = problem.corners # These are the corner coordinates
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
-
-    "*** YOUR CODE HERE ***"
-    return 0 # Default to trivial solution
+    
+    # Manhattan distance to the FARTHEST unvisited corner.
+    position, unvisited = state
+    if not unvisited:
+        return 0
+    return max(util.manhattanDistance(position, c) for c in unvisited)
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
