@@ -456,13 +456,27 @@ def foodHeuristic(state: Tuple[Tuple, List[List]], problem: FoodSearchProblem):
     position, foodGrid = state
 
     #  real MAZE distance (BFS through corridors) to the farthest
+    # remaining food dot. Distances are cached in problem.heuristicInfo so
 
-    # remaining food dot. Walls are now taken into account.
+    # each pair of points is only solved with BFS once per search.
     foods = foodGrid.asList()
-    
+
     if not foods:
         return 0
-    return max(mazeDistance(position, food, problem.startingGameState) for food in foods)
+ 
+    cache = problem.heuristicInfo.setdefault('mazeDistances', {})
+    farthest = 0
+
+
+    for food in foods:
+        key= (position, food)
+        if key not in cache:
+            cache[key] =  mazeDistance(position, food, problem.startingGameState)
+        farthest = max(farthest, cache[key])
+
+
+
+    return farthest
 
 
 
