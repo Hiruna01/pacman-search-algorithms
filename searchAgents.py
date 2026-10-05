@@ -378,11 +378,24 @@ def cornersHeuristic(state: Any, problem: CornersProblem):
     corners = problem.corners # These are the corner coordinates
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
     
-    # Manhattan distance to the FARTHEST unvisited corner.
-    position, unvisited = state
-    if not unvisited:
-        return 0
-    return max(util.manhattanDistance(position, c) for c in unvisited)
+    # Shortest Manhattan tour from Pacman through every unvisited corner.
+    position, unvisited =  state
+
+    def shortestTour(current, remaining):
+
+        # Try each remaining corner as the next stop, keep the cheapest total .
+        if not remaining:
+            return 0
+        best = float('inf')
+
+        for corner in remaining:
+            rest =tuple(c for c in remaining if c != corner)
+            cost =  util.manhattanDistance(current, corner) + shortestTour(corner, rest)
+            best = min(best, cost)
+
+        return best
+
+    return shortestTour(position, unvisited)
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
