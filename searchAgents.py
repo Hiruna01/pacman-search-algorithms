@@ -295,15 +295,19 @@ class CornersProblem(search.SearchProblem):
         Returns the start state (in your state space, not the full Pacman state
         space)
         """
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        # State = (position, tuple of corners NOT yet visited).
+        # If Pacman starts on a corner, that corner is already visited.
+        unvisited = tuple(c for c in self.corners if c != self.startingPosition)
+        return (self.startingPosition, unvisited)
+
 
     def isGoalState(self, state: Any):
         """
         Returns whether this search state is a goal state of the problem.
         """
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        # Goal: no corners left to visit.
+        _, unvisited = state
+        return len(unvisited) == 0
 
     def getSuccessors(self, state: Any):
         """
@@ -325,7 +329,20 @@ class CornersProblem(search.SearchProblem):
             #   nextx, nexty = int(x + dx), int(y + dy)
             #   hitsWall = self.walls[nextx][nexty]
 
-            "*** YOUR CODE HERE ***"
+            successors = []
+
+            (x, y), unvisited = state
+
+
+            for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
+                dx, dy = Actions.directionToVector(action)
+                nextx, nexty = int(x + dx), int(y + dy)
+
+                if not self.walls[nextx][nexty]:
+                    nextPos = (nextx, nexty)
+                    # Reaching a corner removes it from the unvisited tuple.
+                    nextUnvisited = tuple(c for c in unvisited if c != nextPos)
+                    successors.append(((nextPos, nextUnvisited), action, 1))
 
         self._expanded += 1 # DO NOT CHANGE
         return successors
@@ -357,11 +374,28 @@ def cornersHeuristic(state: Any, problem: CornersProblem):
     shortest path from the state to a goal of the problem; i.e.  it should be
     admissible (as well as consistent).
     """
+
     corners = problem.corners # These are the corner coordinates
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
+    
+    # Shortest Manhattan tour from Pacman through every unvisited corner.
+    position, unvisited =  state
 
-    "*** YOUR CODE HERE ***"
-    return 0 # Default to trivial solution
+    def shortestTour(current, remaining):
+
+        # Try each remaining corner as the next stop, keep the cheapest total .
+        if not remaining:
+            return 0
+        best = float('inf')
+
+        for corner in remaining:
+            rest =tuple(c for c in remaining if c != corner)
+            cost =  util.manhattanDistance(current, corner) + shortestTour(corner, rest)
+            best = min(best, cost)
+
+        return best
+
+    return shortestTour(position, unvisited)
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
