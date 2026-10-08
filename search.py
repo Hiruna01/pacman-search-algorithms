@@ -87,12 +87,75 @@ def depthFirstSearch(problem: SearchProblem):
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
     "*** YOUR CODE HERE ***"
+
+    # Initialize the frontier with the start state and an empty list of actions.
+    frontier = util.Stack()
+    frontier.push((problem.getStartState(), []))
+    # Initialize the explored set to keep track of visited states.
+    explored = set()
+
+
+    # Loop until the frontier is empty.
+    while not frontier.isEmpty():
+
+        state, actions = frontier.pop()
+
+        # Return this route's moves when the goal is reached.
+        if problem.isGoalState(state):
+            return actions
+
+        # Skip states whose successors were already explored.
+        if state in explored:
+            continue
+
+        
+        explored.add(state)
+
+        # Add the successors of the current state to the frontier.
+        for next_state, action, step_cost in problem.getSuccessors(state):
+            if next_state not in explored:
+                # Create a separate move list for this new route.
+                new_actions = actions + [action]
+                frontier.push((next_state, new_actions))
+
+
+
+    return []
+
+
+
     util.raiseNotDefined()
 
 def breadthFirstSearch(problem: SearchProblem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    frontier = util.Queue()
+
+    frontier.push((problem.getStartState(), []))
+    explored = set()
+
+    while not frontier.isEmpty():
+
+        state, actions = frontier.pop()
+
+        if problem.isGoalState(state):
+            return actions
+
+        # Skip states whose successors were already explored.
+        if state in explored:
+            continue
+
+        explored.add(state)
+
+        # Add each legal next state to the back of the queue.
+        for next_state, action, step_cost in problem.getSuccessors(state):
+            if next_state not in explored:
+                # Give the new route its own move list.
+                new_actions = actions + [action]
+                frontier.push((next_state, new_actions))
+
+    # No route to the goal was found.
+    return []
 
 def uniformCostSearch(problem: SearchProblem):
     """Search the node of least total cost first."""
