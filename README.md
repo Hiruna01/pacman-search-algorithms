@@ -1,5 +1,7 @@
 # Search Algorithms in Pac-Man
 
+![Pac-Man Search Algorithms — SLIIT, IT3012, Group AI49](assets/pacman-showcase.png)
+
 **IT3012 Intelligent Systems — Group Assignment (Group AI49)**
 Faculty of Computing, SLIIT · Year 3 · 2026
 
